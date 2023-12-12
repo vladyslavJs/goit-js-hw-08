@@ -66,6 +66,8 @@ const images = [
   },
 ];
 
+// NEW VERSION
+
 const gallery = document.querySelector(".gallery");
 
 gallery.innerHTML = images.reduce(
@@ -87,32 +89,71 @@ gallery.innerHTML = images.reduce(
 
 gallery.addEventListener("click", (event) => {
     event.preventDefault();
+//
+  const clickedImage = event.target.dataset.source;
+  if (clickedImage) {
+    console.log(clickedImage);
 
-    if (event.target.nodeName !== "IMG") {
-        return;
-    } else {
-        const instance = basicLightbox.create(
-            `<div>
-                <img class="big-wallpaper-image" src="${event.target.dataset.source}" width="1112"
-                height="640">
-            </div>`,
-            {
-                onShow: () => {
-                    document.addEventListener("keydown", onRemoveListener);
-                },
-                onClose: () => {
-                    document.removeEventListener("keydown", onRemoveListener);
-                },
-            }
-        );
-        
-        instance.show();
+  } else {
+    return !clickedImage;
+    // return;
+  } 
+    const instance = basicLightbox.create(
+      `<img
+        class="gallery-image-modal"
+        src="${clickedImage}"
+        width="1112"
+        height="640"
+      />`,
+      {
+        onShow: () => {
+          document.addEventListener("keydown", onRemoveListener);
+        },
+        onClose: () => {
+          document.removeEventListener("keydown", onRemoveListener);
+        },
+      }
+    );
 
-        
-        function onRemoveListener(event) {
-            if (event.code === "Escape") {
-                instance.close();
-            }
-        }
+    instance.show();
+
+    function onRemoveListener(event) {
+      if (event.key === "Escape") {
+        instance.close();
+      }
     }
+  
 });
+
+//OLD VERSION
+
+//  if (event.target.nodeName !== "IMG") {
+//         return;
+//     } else {
+
+      
+//         const instance = basicLightbox.create(
+//             `<div>
+//                 <img class="big-wallpaper-image" src="${event.target.dataset.source}" width="1112"
+//                 height="640">
+//             </div>`,
+//             {
+//                 onShow: () => {
+//                     document.addEventListener("keydown", onRemoveListener);
+//                 },
+//                 onClose: () => {
+//                     document.removeEventListener("keydown", onRemoveListener);
+//                 },
+//             }
+//         );
+        
+//         instance.show();
+
+        
+//         function onRemoveListener(event) {
+//             if (event.code === "Escape") {
+//                 instance.close();
+//             }
+//         }
+//     }
+// });
